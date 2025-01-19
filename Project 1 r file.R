@@ -13,6 +13,7 @@ library(GGally)
 ##Part 2
 
 #seperating countries
+#All 3 countires data
 uk_data <- data[data$Country == "United Kingdom", ]
 korea_data <- data[data$Country == "Korea, Rep.", ]
 madagascar_data <- data[data$Country == "Madagascar", ]
