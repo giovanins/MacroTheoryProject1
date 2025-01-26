@@ -1,12 +1,12 @@
 # Macro Theory Project 1
 
-This is the R code for Macro Thoery Project 1. This project analyzes GDP per capita growth rates for three countries: The United Kingdom, The Republic of Korea, and Madagascar. 
-The project uses visualisation and statitsical analysis to examine economic trends and relattionships between key indicators. 
+This is the R code for Macro Theory Project 1. This project analyzes GDP per capita growth rates for three countries: the United Kingdom, the Republic of Korea, and Madagascar.
+The project uses visualization and statistical analysis to examine economic trends and relationships between key indicators.
 
 
 ##  Part 1:
 ### Requirments
-These are the following packages that need to be installed before running the script:
+The following packages need to be installed before running the script:
 - dyplr
 - stargazer
 - ggplot2
@@ -18,18 +18,20 @@ These are the following packages that need to be installed before running the sc
 ### Analysis of GDP Growth
 
 1. Seperate data by country
-2. Create a GDP Growth rate for each
-3. Seperate out year and Growth Rates into a seperate data table, using only the first 50 lines
-4. Create a table to compare data
-5. Plot all 3 countries on a 1 line plot to compare
+2. Create a GDP growth rate for each country.
+3. Separate year and growth rates into a separate data table, using only the first 50 rows.
+4. Create a table to compare data.
+5. Plot all three countries on a single line plot for comparison.
+
 
 ## Part 3
 
 ### UK GDP Growth Trends
 
-1. Using UK as a single country, subset data in different time groups, calculating the average GDP growth per period
-2. Plot that data on a seperate graph
-3. Filter data to remove missing values and visualize a correlation matrix
-4. Create a scatterplot analysis to compare GDP Growth rate to other economic indicators
-5. Using ggpairs to generate a scatter plot matrix for more insight
+1. Using the UK as a single country, subset data into different time periods and calculate the average GDP growth per period.
+2. Plot the data on a separate graph
+3. Filter data to remove missing values and visualize a correlation matrix.
+4. Create a scatterplot analysis to compare GDP growth rates with other economic indicators.
+5. Use ggpairs to generate a scatterplot matrix for deeper insights.
+
 
