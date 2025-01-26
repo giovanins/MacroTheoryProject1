@@ -25,7 +25,7 @@ These are the following packages that need to be installed before running the sc
 
 ## Part 3
 
-## UK GDP Growth Trends
+### UK GDP Growth Trends
 
 1. Using UK as a single country, subset data in different time groups, calculating the average GDP growth per period
 2. Plot that data on a seperate graph
