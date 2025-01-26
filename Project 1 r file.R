@@ -12,8 +12,7 @@ library(GGally)
 
 ##Part 2
 
-#seperating countries by group
-#All 3 countires data
+#seperating countries
 uk_data <- data[data$Country == "United Kingdom", ]
 korea_data <- data[data$Country == "Korea, Rep.", ]
 madagascar_data <- data[data$Country == "Madagascar", ]
@@ -34,7 +33,7 @@ table_data_50 <- head(table_data, 50)
 table_data_50$Year <- as.numeric(gsub(",", "", table_data_50$Year))
 #Created stargazer to easily compare all 3 countries growth per year
 stargazer(table_data_50, 
-          type = "text",  # You can also use "html" or "latex"
+          type = "text",
           title = "Annual GDP per capita Growth Rate",
           column.labels = c("Year", "UK", "Korea", "Madagascar"),
           summary = FALSE)
@@ -42,10 +41,12 @@ stargazer(table_data_50,
 #Stacked data into 2 rows to easier plot later
 long_data <- table_data_50 %>%
   gather(key = "Country", value = "Growth_Rate", -Year)
+
 #plotted all 3 countires on 1 line plot to compare different growth rates per year
 ggplot(long_data, aes(x = Year, y = Growth_Rate, color = Country)) +
   geom_line() +
   geom_point() +
+  geom_smooth(method = "lm", aes(group = Country), se = FALSE, linetype = "dashed") +
   labs(title = "GDP per Capita Growth Rate",
        x = "Year",
        y = "Growth Rate (%)") +
@@ -53,29 +54,73 @@ ggplot(long_data, aes(x = Year, y = Growth_Rate, color = Country)) +
   scale_color_manual(values = c("blue", "red", "green"))
 
 
+#calculating the average growth per country
+Average_growth_korea <- mean(korea_data$Growth_Rate, na.rm = TRUE)
+print(Average_growth_korea)
+
+Average_growth_madagascar <- mean(madagascar_data$Growth_Rate, na.rm = TRUE)
+print(Average_growth_madagascar)
+
+Average_growth_uk <- mean(uk_data$Growth_Rate, na.rm = TRUE)
+print(Average_growth_uk)
+
+###############splitting data into 2 seperate time periods
+
+data_1975_2006 <- subset(long_data, Year >= 1975 & Year <= 2006)
+data_2007_2023 <- subset(long_data, Year >= 2007 & Year <= 2023)
+
+#plotted all 3 countires on 1 line plot to compare different growth rates per year for each time periods
+ggplot(data_1975_2006, aes(x = Year, y = Growth_Rate, color = Country)) +
+  geom_line() +
+  geom_point() +
+  geom_smooth(method = "lm", aes(group = Country), se = FALSE, linetype = "dashed") +
+  labs(title = "GDP per Capita Growth Rate",
+       x = "Year",
+       y = "Growth Rate (%)") +
+  theme_minimal() +
+  scale_color_manual(values = c("blue", "red", "green"))
+
+#for 2007-2023
+ggplot(data_2007_2023, aes(x = Year, y = Growth_Rate, color = Country)) +
+  geom_line() +
+  geom_point() +
+  geom_smooth(method = "lm", aes(group = Country), se = FALSE, linetype = "dashed") +
+  labs(title = "GDP per Capita Growth Rate",
+       x = "Year",
+       y = "Growth Rate (%)") +
+  theme_minimal() +
+  scale_color_manual(values = c("blue", "red", "green"))
+
+
+
 ##Part 3
 #using UK as single country, Subsetting data into different time groupings
-uk_subset_pre_1990 <- uk_data %>%
-  filter(Year <= 1990)
+uk_subset_1975_1988 <- uk_data %>%
+  filter(Year >=1975 & Year <= 1988)
 
-uk_subset_1991_2007 <- uk_data %>%
-  filter(Year >= 1991 & Year <= 2007)
-
-uk_subset_2008_future <- uk_data %>%
-  filter(Year >= 2008)
+uk_subset_1989_2023 <- uk_data %>%
+  filter(Year >= 1989 & Year <= 2023)
 
 #calculating average gdp growth for each period
-Average_growth_pre_1990 <- mean(uk_subset_pre_1990$Growth_Rate, na.rm = TRUE)
-print(Average_growth_pre_1990)
+Average_growth_1975_1988 <- mean(uk_subset_1975_1988$Growth_Rate, na.rm = TRUE)
+print(Average_growth_1975_1988)
 
-Average_growth_1991_2007 <- mean(uk_subset_1991_2007$Growth_Rate, na.rm = TRUE)
-print(Average_growth_1991_2007)
+Average_growth_1989_2023 <- mean(uk_subset_1989_2023$Growth_Rate, na.rm = TRUE)
+print(Average_growth_1989_2023)
 
-Average_growth_2008_future <- mean(uk_subset_2008_future$Growth_Rate, na.rm = TRUE)
-print(Average_growth_2008_future)
+#replotted just UK_subset_1975_1988 for easier viewing
+ggplot(uk_subset_1975_1988, aes(x = Year, y = Growth_Rate, color = Country)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "GDP per Capita Growth Rate",
+       x = "Year",
+       y = "Growth Rate (%)") +
+  theme_minimal() +
+  scale_color_manual(values = c("green"))
 
-#replotted just UK for easier viewing
-ggplot(uk_data, aes(x = Year, y = Growth_Rate, color = Country)) +
+
+#replotted just UK_subset_1989_2023 for easier viewing
+ggplot(uk_subset_1989_2023, aes(x = Year, y = Growth_Rate, color = Country)) +
   geom_line() +
   geom_point() +
   labs(title = "GDP per Capita Growth Rate",
@@ -102,43 +147,25 @@ str(uk_data_subset)
 correlation_matrix <- cor(uk_data_subset, use = "complete.obs")
 
 # Print the correlation matrix
-corrplot(correlation_matrix, method = "pie")
-
-#scatterplot comparison
-for (col_name in colnames(filtered_data_uk)) {
-  if (col_name != "Growth_Rate") {
-    # Create scatter plot for GDP Growth vs the current column
-    plot <- ggplot(filtered_data_uk, aes_string(x = "Growth_Rate", y = col_name)) +
-      geom_point() +
-      labs(title = paste("Scatter Plot of GDP Growth vs", col_name),
-           x = "GDP Growth Rate",
-           y = col_name) +
-      theme_minimal()
-    
-    # Print the plot
-    print(plot)
-  }
-}
+corrplot(correlation_matrix, method = "color")
 
 
-ggplot(data = uk_data_subset, aes(x = Growth_Rate, y = Gross.savings)) +
-  geom_point() +
-  labs(title = "Scatter Plot of GDP Growth vs Other Variables",
-       x = "GDP Growth Rate",
-       y = "Other Variable") +
-  theme_minimal()
-
-
+#ggpairs is not used just cool looking and was trying it out
 ggpairs(uk_data_subset, 
         title = "Scatter Plot Matrix: GDP Growth, GDP, and Inflation",
         cardinality_threshold = 30)
+#scatterplot comparison
+par(mfrow = c(3, 3))
 
-for (col_name in colnames(numeric_data)) {
-  if (col_name != "Growth_Rate" && is.numeric(numeric_data[[col_name]])) {
-    plot(numeric_data$Growth_Rate, numeric_data[[col_name]],
+for (col_name in colnames(uk_data_subset)) {
+  if (col_name != "Growth_Rate" && is.numeric(uk_data_subset[[col_name]])) {
+    plot(uk_data_subset$Growth_Rate, uk_data_subset[[col_name]],
          main = paste("GDP Growth vs", col_name),
          xlab = "GDP Growth Rate",
          ylab = col_name,
-         pch = 19)  # Use filled circles for points
+         pch = 19)
   }
 }
+
+par(mfrow = c(1, 1))
+
