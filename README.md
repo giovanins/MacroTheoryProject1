@@ -4,7 +4,7 @@ This is the R code for Macro Thoery Project 1. This project analyzes GDP per cap
 The project uses visualisation and statitsical analysis to examine economic trends and relattionships between key indicators. 
 
 
-#  Part 1:
+##  Part 1:
 ### Requirments
 These are the following packages that need to be installed before running the script:
 - dyplr
@@ -14,7 +14,7 @@ These are the following packages that need to be installed before running the sc
 - corrplot
 - GGally
 
-# Part 2
+## Part 2
 ### Analysis of GDP Growth
 
 1. Seperate data by country
@@ -23,7 +23,7 @@ These are the following packages that need to be installed before running the sc
 4. Create a table to compare data
 5. Plot all 3 countries on a 1 line plot to compare
 
-# Part 3
+## Part 3
 
 ## UK GDP Growth Trends
 
