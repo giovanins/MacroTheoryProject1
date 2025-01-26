@@ -1,4 +1,4 @@
-# MacroTheoryProject1
+# Macro Theory Project 1
 
 This is the R code for Macro Thoery Project 1. This project analyzes GDP per capita growth rates for three countries: The United Kingdeom, The Republic of Korea, and Madagascar. 
 The project uses visualisation and statitsical analysis to examine economic trends and relattionships between key indicators. 
